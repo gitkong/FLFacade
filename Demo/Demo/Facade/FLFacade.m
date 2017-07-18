@@ -81,6 +81,14 @@
     [self pushViewController:viewController animated:animated complete:nil];
 }
 
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated needBack:(BOOL)needBack {
+    [self pushViewController:viewController animated:animated needBack:needBack complete:nil];
+}
+
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated needBack:(BOOL)needBack complete:(void(^)())complete {
+    [self pushViewController:viewController animated:animated needBack:needBack needReload:YES complete:complete];
+}
+
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated complete:(void(^)())complete {
     [self pushViewController:viewController animated:animated needReload:NO complete:complete];
 }

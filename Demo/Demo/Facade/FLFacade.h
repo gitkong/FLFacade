@@ -69,6 +69,25 @@
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated;
 
 /**
+ Push到指定控制器
+
+ @param viewController 指定控制器
+ @param animated 是否动画
+ @param needBack 是否需要回到栈中有的控制器（同类名），YES 就默认pop回去然后重新加载当前控制器
+ */
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated needBack:(BOOL)needBack;
+
+/**
+ Push到指定控制器
+
+ @param viewController 指定控制器
+ @param animated 是否动画
+ @param needBack 是否需要回到栈中有的控制器（同类名），YES 就默认pop回去然后重新加载当前控制器
+ @param complete 完成回调
+ */
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated needBack:(BOOL)needBack complete:(void(^)())complete;
+
+/**
  Push到指定控制器，此时如果栈中有跟指定控制器相同类,则不会跳转新的，而是pop回去指定控制器，此时指定控制器不会重新加载
 
  @param viewController 指定控制器
