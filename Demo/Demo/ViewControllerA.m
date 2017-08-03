@@ -19,7 +19,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor grayColor];
-    
     UILabel *label = [[UILabel alloc] init];
     label.text = NSStringFromClass(self.class);
     label.center = self.view.center;
@@ -30,12 +29,13 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     ViewControllerB *vc = [[ViewControllerB alloc] init];
     vc.isFromPrsent = self.isFromPrsent;
-    if (self.isFromPrsent) {
-        [FACADE presentViewController:vc];
-    }
-    else {
-        [FACADE pushViewController:vc];
-    }
+//    if (self.isFromPrsent) {
+//        [FACADE presentViewController:vc];
+//    }
+//    else {
+//        [FACADE pushViewController:vc];
+//    }
+    [FACADE removeEmbedViewController];
 }
 
 @end

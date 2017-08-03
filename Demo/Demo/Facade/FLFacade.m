@@ -197,6 +197,141 @@
     }
 }
 
+#pragma mark Embed 
+
+- (void)embedViewController:(UIViewController *)vc {
+    [self embedViewController:vc completion:nil];
+}
+
+- (void)embedViewController:(UIViewController *)vc completion:(void (^)())completion {
+    [self embedViewController:vc animateType:FLFacadeAnimateTypeFade duration:0.25 completion:completion];
+}
+
+- (void)embedViewController:(UIViewController *)vc animateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration completion:(void (^)())completion {
+    [self embedViewController:vc inParentViewController:self.currentViewController animateType:animateType duration:duration completion:completion];
+}
+
+- (void)embedViewController:(UIViewController *)vc inParentViewController:(UIViewController *)parentVC animateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration completion:(void (^)())completion {
+    if (vc.parentViewController == parentVC) {
+        return;
+    }
+    
+    [parentVC addChildViewController:vc];
+    
+    [vc willMoveToParentViewController:parentVC];
+    vc.view.frame = parentVC.view.bounds;
+    [parentVC.view addSubview:vc.view];
+    
+    if (animateType == FLFacadeAnimateTypeNone) {
+        [vc didMoveToParentViewController:parentVC];
+    }
+    else if([self isFadeAnimate:animateType]) {
+        [self fadeAnimateWithView:vc.view animateType:animateType duration:duration isEmbedAnimated:YES completion:^{
+            [vc didMoveToParentViewController:parentVC];
+        }];
+    }
+    else {
+        [self transitionWithView:parentVC.view animateType:animateType duration:duration isEmbedAnimated:YES completion:^{
+            [vc didMoveToParentViewController:parentVC];
+        }];
+    }
+    if (completion) {
+        completion();
+    }
+}
+
+- (void)removeEmbedViewController {
+    [self removeEmbedViewControllerCompletion:nil];
+}
+
+- (void)removeEmbedViewControllerCompletion:(void (^)())completion {
+    [self removeEmbedViewController:self.currentViewController.childViewControllers.lastObject completion:completion];
+}
+
+- (void)removeEmbedViewController:(UIViewController *)vc completion:(void (^)())completion {
+    [self removeEmbedViewController:vc animateType:FLFacadeAnimateTypeFade duration:0.25 completion:completion];
+}
+
+- (void)removeEmbedViewController:(UIViewController *)vc animateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration completion:(void (^)())completion {
+    if (animateType == FLFacadeAnimateTypeNone) {
+        [vc.view removeFromSuperview];
+        [vc removeFromParentViewController];
+    }
+    else if([self isFadeAnimate:animateType]) {
+        [self fadeAnimateWithView:vc.view animateType:animateType duration:duration isEmbedAnimated:NO completion:^{
+            [vc.view removeFromSuperview];
+            [vc removeFromParentViewController];
+        }];
+    }
+    else {
+        [self transitionWithView:vc.view animateType:animateType duration:duration isEmbedAnimated:NO completion:^{
+            [vc.view removeFromSuperview];
+            [vc removeFromParentViewController];
+        }];
+    }
+    if (completion) {
+        completion();
+    }
+    
+}
+
+#pragma mark private method
+
+- (BOOL)isFadeAnimate:(FLFacadeAnimateType)animateType {
+    return animateType == FLFacadeAnimateTypeFade || animateType == FLFacadeAnimateTypeFadeFromTop || animateType == FLFacadeAnimateTypeFlipFromBottom || animateType == FLFacadeAnimateTypeFadeFromLeft || animateType == FLFacadeAnimateTypeFadeFromRight;
+}
+
+- (void)fadeAnimateWithView:(UIView *)view animateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration isEmbedAnimated:(BOOL)embedAnimated completion:(void (^)())completion {
+    view.alpha = embedAnimated ? 0.0 : 1.0;
+    [UIView animateWithDuration:duration animations:^{
+        view.alpha = embedAnimated ? 1.0 : 0.0;
+    } completion:^(BOOL finished) {
+        if (completion) {
+            completion();
+        }
+    }];
+}
+
+- (void)transitionWithView:(UIView *)view animateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration isEmbedAnimated:(BOOL)embedAnimated completion:(void (^)())completion {
+    if (animateType < FLFacadeAnimateTypeFlipFromLeft) {
+        return;
+    }
+    UIViewAnimationOptions options = UIViewAnimationOptionTransitionNone;
+    if (animateType == FLFacadeAnimateTypeFlipFromLeft) {
+        options = UIViewAnimationOptionTransitionFlipFromLeft;
+    }
+    else if (animateType == FLFacadeAnimateTypeFlipFromRight) {
+        options = UIViewAnimationOptionTransitionFlipFromRight;
+    }
+    else if (animateType == FLFacadeAnimateTypeFlipFromTop) {
+        options = UIViewAnimationOptionTransitionFlipFromTop;
+    }
+    else if (animateType == FLFacadeAnimateTypeFlipFromBottom) {
+        options = UIViewAnimationOptionTransitionFlipFromBottom;
+    }
+    else if (animateType == FLFacadeAnimateTypeCurlUp) {
+        options = UIViewAnimationOptionTransitionCurlUp;
+    }
+    else if (animateType == FLFacadeAnimateTypeCurlDown) {
+        options = UIViewAnimationOptionTransitionCurlDown;
+    }
+    else if (animateType == FLFacadeAnimateTypeCrossDissolve) {
+        options = UIViewAnimationOptionTransitionCrossDissolve;
+    }
+    if (!embedAnimated) {
+        view.alpha = 1.0;
+    }
+    [UIView transitionWithView:view duration:duration options:options animations:^{
+        if (!embedAnimated) {
+            view.alpha = 0.0;
+        }
+    } completion:^(BOOL finished) {
+        if (completion) {
+            completion();
+        }
+    }];
+}
+
 #pragma mark - SKStoreProductViewControllerDelegate
 
 - (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {

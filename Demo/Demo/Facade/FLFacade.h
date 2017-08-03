@@ -10,6 +10,33 @@
 #import "UIViewController+PresentStack.h"
 #define FACADE [FLFacade shareManager]
 
+/*
+ UIViewAnimationOptionTransitionNone            = 0 << 20, // default
+ UIViewAnimationOptionTransitionFlipFromLeft    = 1 << 20,
+ UIViewAnimationOptionTransitionFlipFromRight   = 2 << 20,
+ UIViewAnimationOptionTransitionCurlUp          = 3 << 20,
+ UIViewAnimationOptionTransitionCurlDown        = 4 << 20,
+ UIViewAnimationOptionTransitionCrossDissolve   = 5 << 20,
+ UIViewAnimationOptionTransitionFlipFromTop     = 6 << 20,
+ UIViewAnimationOptionTransitionFlipFromBottom  = 7 << 20,
+ */
+
+typedef NS_ENUM(NSUInteger, FLFacadeAnimateType) {
+    FLFacadeAnimateTypeNone,
+    FLFacadeAnimateTypeFade,
+    FLFacadeAnimateTypeFadeFromLeft,
+    FLFacadeAnimateTypeFadeFromRight,
+    FLFacadeAnimateTypeFadeFromTop,
+    FLFacadeAnimateTypeFadeFromBottom,
+    FLFacadeAnimateTypeFlipFromLeft,
+    FLFacadeAnimateTypeFlipFromRight,
+    FLFacadeAnimateTypeFlipFromTop,
+    FLFacadeAnimateTypeFlipFromBottom,
+    FLFacadeAnimateTypeCurlUp,
+    FLFacadeAnimateTypeCurlDown,
+    FLFacadeAnimateTypeCrossDissolve
+};
+
 @interface FLFacade : NSObject
 
 @property (nonatomic, strong, readonly) UIViewController *currentViewController;
@@ -238,5 +265,9 @@
  @param completion 完成回调
  */
 - (void)dismissToViewController:(UIViewController *)viewController animated: (BOOL)animated completion: (void (^)())completion;
+
+- (void)embedViewController:(UIViewController *)vc;
+
+- (void)removeEmbedViewController;
 
 @end

@@ -33,7 +33,8 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     ViewControllerA *vc = [[ViewControllerA alloc] init];
     vc.isFromPrsent = NO;
-    [FACADE pushViewController:vc];
+//    [FACADE pushViewController:vc];
+    [FACADE embedViewController:vc];
 }
 
 @end
