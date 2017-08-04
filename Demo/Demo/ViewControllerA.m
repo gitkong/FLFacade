@@ -44,7 +44,12 @@
 }
 
 - (void)back {
-    [FACADE dismissViewController];
+    if (self.isFromPrsent) {
+        [FACADE dismissViewController];
+    }
+    else {
+        [FACADE popViewController];
+    }
 }
 
 
