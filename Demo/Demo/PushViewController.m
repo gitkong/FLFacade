@@ -18,23 +18,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"gitKong";
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"点我跳转";
-    label.textColor = [UIColor redColor];
-    label.center = self.view.center;
-    [label sizeToFit];
-    [self.view addSubview:label];
+    self.dataSource = @[@"正常跳转", @"同名控制器-跳转返回", @"同名控制器-跳转不返回"];
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)didSelectRow:(NSInteger)row {
     ViewControllerA *vc = [[ViewControllerA alloc] init];
     vc.isFromPrsent = NO;
-//    [FACADE pushViewController:vc];
-    [FACADE embedViewController:vc];
+    if (row == 0) {
+        vc.isNormalPush = YES;
+    }
+    else if (row == 1) {
+        vc.isNeedPopBack = YES;
+        
+    }
+    else if (row == 2) {
+        
+    }
+    [FACADE pushViewController:vc];
 }
+
 
 @end

@@ -10,6 +10,8 @@
 #import "FLPresentStackController.h"
 #import "PresentViewController.h"
 #import "PushViewController.h"
+#import "EmbedViewController.h"
+
 @interface AppDelegate ()
 
 @end
@@ -25,7 +27,9 @@
     nav.tabBarItem.title = @"Push";
     FLPresentStackController *presentStackVc = [[FLPresentStackController alloc] initWithRootViewController:[[PresentViewController alloc] init]];
     presentStackVc.tabBarItem.title = @"Present";
-    [tabVc setViewControllers:@[nav,presentStackVc] animated:YES];
+    UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:[[EmbedViewController alloc] init]];
+    nav1.tabBarItem.title = @"Embed";
+    [tabVc setViewControllers:@[nav, presentStackVc, nav1] animated:YES];
     self.window.rootViewController = tabVc;
     [self.window makeKeyAndVisible];
     return YES;

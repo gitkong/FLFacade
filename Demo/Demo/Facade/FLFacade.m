@@ -13,6 +13,8 @@
 
 #define APPLICATION [UIApplication sharedApplication]
 
+static CGFloat KDefault_Animate_Duration = 0.25f;
+
 @interface FLFacade ()<SKStoreProductViewControllerDelegate>
 
 @end
@@ -174,37 +176,56 @@
             [self.currentPresentStackController dismissViewControllerAnimated:animated completion:completion];
         }
         else {
-            [self.currentViewController dismissViewControllerAnimated:animated completion:completion];
+            [self systemDismissAnimated:animated completion:completion];
         }
     }
 }
 
 - (void)dismissToRootViewControllerAnimated: (BOOL)animated completion: (void (^)())completion {
-    if (self.currentViewController && self.currentPresentStackController) {
-        [self.currentPresentStackController dismissToRootViewControllerAnimated:animated completion:completion];
+    if (self.currentViewController) {
+        if (self.currentPresentStackController) {
+            [self.currentPresentStackController dismissToRootViewControllerAnimated:animated completion:completion];
+        }
+        else {
+            [self systemDismissAnimated:animated completion:completion];
+        }
     }
 }
 
 - (void)dismissToIndex:(NSInteger)index animated: (BOOL)animated completion: (void (^)())completion {
-    if (self.currentViewController && self.currentPresentStackController) {
-        [self.currentPresentStackController dismissToIndex:index animated:animated completion:completion];
+    if (self.currentViewController) {
+        if (self.currentPresentStackController) {
+            [self.currentPresentStackController dismissToIndex:index animated:animated completion:completion];
+        }
+        else {
+            [self systemDismissAnimated:animated completion:completion];
+        }
     }
 }
 
 - (void)dismissToViewController:(UIViewController *)viewController animated: (BOOL)animated completion: (void (^)())completion {
-    if (viewController && self.currentViewController && self.currentViewController != viewController && self.currentPresentStackController) {
-        [self.currentPresentStackController dismissToViewController:viewController animated:animated completion:completion];
+    if (viewController && self.currentViewController && self.currentViewController != viewController) {
+        if (self.currentPresentStackController) {
+            [self.currentPresentStackController dismissToViewController:viewController animated:animated completion:completion];
+        }
+        else {
+            [self systemDismissAnimated:animated completion:completion];
+        }
     }
 }
 
-#pragma mark Embed 
+#pragma mark - Embed 
 
 - (void)embedViewController:(UIViewController *)vc {
     [self embedViewController:vc completion:nil];
 }
 
 - (void)embedViewController:(UIViewController *)vc completion:(void (^)())completion {
-    [self embedViewController:vc animateType:FLFacadeAnimateTypeFade duration:0.25 completion:completion];
+    [self embedViewController:vc animateType:FLFacadeAnimateTypeFade completion:completion];
+}
+
+- (void)embedViewController:(UIViewController *)vc animateType:(FLFacadeAnimateType)animateType completion:(void (^)())completion {
+    [self embedViewController:vc animateType:animateType duration:KDefault_Animate_Duration completion:completion];
 }
 
 - (void)embedViewController:(UIViewController *)vc animateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration completion:(void (^)())completion {
@@ -212,21 +233,21 @@
 }
 
 - (void)embedViewController:(UIViewController *)vc inParentViewController:(UIViewController *)parentVC animateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration completion:(void (^)())completion {
-    if (vc.parentViewController == parentVC) {
+    if (vc.parentViewController == parentVC || [self isEmbedViewController:vc isExitAt:parentVC needJudgePrecision:NO]) {
         return;
     }
     
     [parentVC addChildViewController:vc];
     
     [vc willMoveToParentViewController:parentVC];
-    vc.view.frame = parentVC.view.bounds;
-    [parentVC.view addSubview:vc.view];
+    
+    [self embedView:vc.view atParentView:parentVC.view animateType:animateType];
     
     if (animateType == FLFacadeAnimateTypeNone) {
         [vc didMoveToParentViewController:parentVC];
     }
     else if([self isFadeAnimate:animateType]) {
-        [self fadeAnimateWithView:vc.view animateType:animateType duration:duration isEmbedAnimated:YES completion:^{
+        [self fadeAnimateWithView:vc.view atParentView:parentVC.view animateType:animateType duration:duration isEmbedAnimated:YES completion:^{
             [vc didMoveToParentViewController:parentVC];
         }];
     }
@@ -240,6 +261,8 @@
     }
 }
 
+#pragma mark - Remve Embed
+
 - (void)removeEmbedViewController {
     [self removeEmbedViewControllerCompletion:nil];
 }
@@ -248,17 +271,30 @@
     [self removeEmbedViewController:self.currentViewController.childViewControllers.lastObject completion:completion];
 }
 
+- (void)removeEmbedViewControllerWithAnimateType:(FLFacadeAnimateType)animateType completion:(void (^)())completion {
+    [self removeEmbedViewControllerWithAnimateType:animateType duration:KDefault_Animate_Duration completion:completion];
+}
+
+- (void)removeEmbedViewControllerWithAnimateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration completion:(void (^)())completion {
+    [self removeEmbedViewController:self.currentViewController.childViewControllers.lastObject animateType:animateType duration:duration completion:completion];
+}
+
 - (void)removeEmbedViewController:(UIViewController *)vc completion:(void (^)())completion {
-    [self removeEmbedViewController:vc animateType:FLFacadeAnimateTypeFade duration:0.25 completion:completion];
+    [self removeEmbedViewController:vc animateType:FLFacadeAnimateTypeFade completion:completion];
+}
+
+- (void)removeEmbedViewController:(UIViewController *)vc animateType:(FLFacadeAnimateType)animateType completion:(void (^)())completion {
+    [self removeEmbedViewController:vc animateType:animateType duration:KDefault_Animate_Duration completion:completion];
 }
 
 - (void)removeEmbedViewController:(UIViewController *)vc animateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration completion:(void (^)())completion {
+    if (!vc || !vc.parentViewController) return;
     if (animateType == FLFacadeAnimateTypeNone) {
         [vc.view removeFromSuperview];
         [vc removeFromParentViewController];
     }
     else if([self isFadeAnimate:animateType]) {
-        [self fadeAnimateWithView:vc.view animateType:animateType duration:duration isEmbedAnimated:NO completion:^{
+        [self fadeAnimateWithView:vc.view atParentView:vc.view.superview animateType:animateType duration:duration isEmbedAnimated:NO completion:^{
             [vc.view removeFromSuperview];
             [vc removeFromParentViewController];
         }];
@@ -275,16 +311,113 @@
     
 }
 
-#pragma mark private method
+#pragma mark - private method
 
-- (BOOL)isFadeAnimate:(FLFacadeAnimateType)animateType {
-    return animateType == FLFacadeAnimateTypeFade || animateType == FLFacadeAnimateTypeFadeFromTop || animateType == FLFacadeAnimateTypeFlipFromBottom || animateType == FLFacadeAnimateTypeFadeFromLeft || animateType == FLFacadeAnimateTypeFadeFromRight;
+- (void)systemDismissAnimated:(BOOL)animated completion:(void (^)())completion {
+    [self.currentViewController dismissViewControllerAnimated:animated completion:completion];
 }
 
-- (void)fadeAnimateWithView:(UIView *)view animateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration isEmbedAnimated:(BOOL)embedAnimated completion:(void (^)())completion {
+- (BOOL)isEmbedViewController:(UIViewController *)targetVc isExitAt:(UIViewController *)parentVc needJudgePrecision:(BOOL)needJudgePrecision {
+    if (!parentVc || !targetVc) {
+        return NO;
+    }
+    BOOL isExist = NO;
+    for (UIViewController *vc in parentVc.childViewControllers) {
+        if (needJudgePrecision) {
+            if (vc == targetVc) {
+                isExist = YES;
+                break;
+            }
+        }
+        else {
+            if ([vc isKindOfClass:[targetVc class]]) {
+                isExist = YES;
+                break;
+            }
+        }
+    }
+    return isExist;
+}
+
+- (void)embedView:(UIView *)view atParentView:(UIView *)parentView animateType:(FLFacadeAnimateType)animateType {
+    CGFloat width = parentView.bounds.size.width;
+    CGFloat height = parentView.bounds.size.height;
+    [parentView addSubview:view];
+    
+    if (animateType == FLFacadeAnimateTypeFadeFromLeft) {
+        view.frame = CGRectMake(-width, 0, width, height);
+    }
+    else if (animateType == FLFacadeAnimateTypeFadeFromRight) {
+        view.frame = CGRectMake(width, 0, width, height);
+    }
+    else if (animateType == FLFacadeAnimateTypeFadeFromTop) {
+        view.frame = CGRectMake(0, -height, width, height);
+    }
+    else if (animateType == FLFacadeAnimateTypeFadeFromBottom) {
+        view.frame = CGRectMake(0, height, width, height);
+    }
+    else if (animateType == FLFacadeAnimateTypeFadeByScaleBig) {
+        view.frame = parentView.bounds;
+        view.transform = CGAffineTransformMakeScale(0.05, 0.05);
+    }
+    else if (animateType == FLFacadeAnimateTypeFadeByScaleSmall) {
+        view.frame = parentView.bounds;
+        view.transform = CGAffineTransformMakeScale(2.0, 2.0);
+    }
+    else {
+        view.frame = parentView.bounds;
+    }
+}
+
+- (void)removeEmbedView:(UIView *)view atParentView:(UIView *)parentView animateType:(FLFacadeAnimateType)animateType {
+    CGFloat width = parentView.bounds.size.width;
+    CGFloat height = parentView.bounds.size.height;
+    if (animateType == FLFacadeAnimateTypeFadeFromLeft) {
+        view.frame = CGRectMake(width, 0, width, height);
+    }
+    else if (animateType == FLFacadeAnimateTypeFadeFromRight) {
+        view.frame = CGRectMake(-width, 0, width, height);
+    }
+    else if (animateType == FLFacadeAnimateTypeFadeFromTop) {
+        view.frame = CGRectMake(0, height, width, height);
+    }
+    else if (animateType == FLFacadeAnimateTypeFadeFromBottom) {
+        view.frame = CGRectMake(0, -height, width, height);
+    }
+    else if (animateType == FLFacadeAnimateTypeFadeByScaleBig) {
+        view.transform = CGAffineTransformScale(view.transform, 2.0, 2.0);
+    }
+    else if (animateType == FLFacadeAnimateTypeFadeByScaleSmall) {
+        view.transform = CGAffineTransformScale(view.transform, 0.05, 0.05);
+    }
+    else {
+        view.frame = parentView.bounds;
+    }
+}
+
+- (BOOL)isFadeAnimate:(FLFacadeAnimateType)animateType {
+    return animateType == FLFacadeAnimateTypeFade || animateType == FLFacadeAnimateTypeFadeFromTop || animateType == FLFacadeAnimateTypeFadeFromBottom || animateType == FLFacadeAnimateTypeFadeFromLeft || animateType == FLFacadeAnimateTypeFadeFromRight || animateType == FLFacadeAnimateTypeFadeByScaleSmall || animateType == FLFacadeAnimateTypeFadeByScaleBig;
+}
+
+- (void)fadeAnimateWithView:(UIView *)view atParentView:(UIView *)parentView animateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration isEmbedAnimated:(BOOL)embedAnimated completion:(void (^)())completion {
     view.alpha = embedAnimated ? 0.0 : 1.0;
+    
     [UIView animateWithDuration:duration animations:^{
         view.alpha = embedAnimated ? 1.0 : 0.0;
+        if (embedAnimated && [self isFadeAnimate:animateType]) {
+            if (animateType == FLFacadeAnimateTypeFadeByScaleBig) {
+                view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+            }
+            else if (animateType == FLFacadeAnimateTypeFadeByScaleSmall) {
+                view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+            }
+            else {
+                view.frame = parentView.bounds;
+            }
+        }
+        else {
+            [self removeEmbedView:view atParentView:parentView animateType:animateType];
+        }
     } completion:^(BOOL finished) {
         if (completion) {
             completion();

@@ -12,4 +12,10 @@
 
 @property (nonatomic, assign) BOOL isFromPrsent;
 
+@property (nonatomic, assign) BOOL  isNormalPush;
+
+@property (nonatomic, assign) BOOL  isNeedPopBack;
+
+@property (nonatomic, assign) BOOL isEmbed;
+
 @end

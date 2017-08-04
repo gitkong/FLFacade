@@ -22,6 +22,8 @@
 		3F305C7A1F17503D00926B3A /* PresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F305C791F17503D00926B3A /* PresentViewController.m */; };
 		3F305C7D1F17508600926B3A /* ViewControllerA.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F305C7C1F17508600926B3A /* ViewControllerA.m */; };
 		3F305C801F17509200926B3A /* ViewControllerB.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F305C7F1F17509200926B3A /* ViewControllerB.m */; };
+		3FF843D31F34610B0000218D /* EmbedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FF843D21F34610B0000218D /* EmbedViewController.m */; };
+		3FF843D61F346C190000218D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FF843D51F346C190000218D /* BaseViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +55,10 @@
 		3F305C7C1F17508600926B3A /* ViewControllerA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerA.m; sourceTree = "<group>"; };
 		3F305C7E1F17509200926B3A /* ViewControllerB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerB.h; sourceTree = "<group>"; };
 		3F305C7F1F17509200926B3A /* ViewControllerB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerB.m; sourceTree = "<group>"; };
+		3FF843D11F34610B0000218D /* EmbedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmbedViewController.h; sourceTree = "<group>"; };
+		3FF843D21F34610B0000218D /* EmbedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmbedViewController.m; sourceTree = "<group>"; };
+		3FF843D41F346C190000218D /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		3FF843D51F346C190000218D /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,10 +94,14 @@
 				3F305C571F174D2000926B3A /* Facade */,
 				3F305C431F174C1F00926B3A /* AppDelegate.h */,
 				3F305C441F174C1F00926B3A /* AppDelegate.m */,
+				3FF843D41F346C190000218D /* BaseViewController.h */,
+				3FF843D51F346C190000218D /* BaseViewController.m */,
 				3F305C751F17502600926B3A /* PushViewController.h */,
 				3F305C761F17502600926B3A /* PushViewController.m */,
 				3F305C781F17503D00926B3A /* PresentViewController.h */,
 				3F305C791F17503D00926B3A /* PresentViewController.m */,
+				3FF843D11F34610B0000218D /* EmbedViewController.h */,
+				3FF843D21F34610B0000218D /* EmbedViewController.m */,
 				3F305C7B1F17508600926B3A /* ViewControllerA.h */,
 				3F305C7C1F17508600926B3A /* ViewControllerA.m */,
 				3F305C7E1F17509200926B3A /* ViewControllerB.h */,
@@ -223,7 +233,9 @@
 				3F305C7A1F17503D00926B3A /* PresentViewController.m in Sources */,
 				3F305C731F174F2500926B3A /* UINavigationController+Jump.m in Sources */,
 				3F305C671F174D8400926B3A /* UIViewController+PresentStack.m in Sources */,
+				3FF843D31F34610B0000218D /* EmbedViewController.m in Sources */,
 				3F305C771F17502600926B3A /* PushViewController.m in Sources */,
+				3FF843D61F346C190000218D /* BaseViewController.m in Sources */,
 				3F305C451F174C1F00926B3A /* AppDelegate.m in Sources */,
 				3F305C801F17509200926B3A /* ViewControllerB.m in Sources */,
 				3F305C5A1F174D3A00926B3A /* FLFacade.m in Sources */,
@@ -392,6 +404,7 @@
 				3F305C561F174C1F00926B3A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

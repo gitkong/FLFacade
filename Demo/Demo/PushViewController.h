@@ -6,8 +6,8 @@
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface PushViewController : UIViewController
+@interface PushViewController : BaseViewController
 
 @end

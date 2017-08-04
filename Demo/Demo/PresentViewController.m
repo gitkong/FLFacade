@@ -18,21 +18,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"点我跳转";
-    label.textColor = [UIColor redColor];
-    label.center = self.view.center;
-    [label sizeToFit];
-    [self.view addSubview:label];
+    self.dataSource = @[@"系统控制，只能单层dismiss", @"PresentStack控制，可多层任意dismiss"];
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)didSelectRow:(NSInteger)row {
     ViewControllerA *vc = [[ViewControllerA alloc] init];
     vc.isFromPrsent = YES;
-    [FACADE presentViewController:vc];
+    if (row == 0) {
+        // 不使用PresentStatcController，就跟下面做法一样
+        [self presentViewController:vc animated:YES completion:nil];
+    }
+    else {
+        [FACADE presentViewController:vc];
+    }
 }
 
 @end
