@@ -16,6 +16,8 @@
 
 @property (nonatomic, assign) BOOL  isNeedPopBack;
 
+@property (nonatomic, assign) BOOL  isNeedReload;
+
 @property (nonatomic, assign) BOOL isEmbed;
 
 @end

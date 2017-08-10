@@ -12,4 +12,6 @@
 
 @property (nonatomic, assign) BOOL isFromPrsent;
 
+@property (nonatomic, assign) BOOL  isNeedPopBack;
+
 @end

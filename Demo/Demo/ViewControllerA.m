@@ -70,7 +70,7 @@
             }
             else {
                 PushViewController *pushVc = [[PushViewController alloc] init];
-                [FACADE pushViewController:pushVc animated:YES needBack:self.isNeedPopBack];
+                [FACADE pushViewController:pushVc animated:YES needBack:self.isNeedPopBack needReload:self.isNeedReload complete:nil];
             }
         }
     }

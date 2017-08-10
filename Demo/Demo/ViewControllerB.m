@@ -8,6 +8,7 @@
 
 #import "ViewControllerB.h"
 #import "FLFacade.h"
+#import "PushViewController.h"
 @interface ViewControllerB ()
 
 @end
