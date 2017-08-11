@@ -112,7 +112,7 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
 }
 
 - (void)popViewControllerAnimated:(BOOL)animated {
-    [self popToRootViewControllerAnimated:animated complete:nil];
+    [self popViewControllerAnimated:animated complete:nil];
 }
 
 - (void)popViewControllerAnimated:(BOOL)animated complete:(void(^)())complete {
