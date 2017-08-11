@@ -22,7 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor grayColor];
-    
+    self.title = @"VC-A";
     if (self.isEmbed) {
         [self.view addSubview:self.tableView];
     }
@@ -66,6 +66,7 @@
         }
         else {
             if (self.isNormalPush) {
+                vc.isNeedPopBack = YES;
                 [FACADE pushViewController:vc];
             }
             else {

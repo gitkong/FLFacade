@@ -116,8 +116,15 @@
             if (needReload) {
                 // 数据会刷新效果待优化
                 [strongSelf setViewControllers:arrM animated:animated];
+                if ([arrM.lastObject isKindOfClass:[viewController class]]) {
+                    [arrM removeLastObject];
+                }
                 [arrM addObject:viewController];
                 [strongSelf setViewControllers:arrM animated:NO];
+                if (index == 0) {
+                    [arrM removeObjectAtIndex:index];
+                    [strongSelf setViewControllers:arrM animated:NO];
+                }
             }
             else {
                 [strongSelf setViewControllers:arrM animated:animated];

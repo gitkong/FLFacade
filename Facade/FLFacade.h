@@ -4,11 +4,29 @@
 //
 //  Created by 孔凡列 on 2017/7/10.
 //  Copyright © 2017年 gitKong. All rights reserved.
-//
+//  http://www.jianshu.com/u/fe5700cfb223 欢迎关注
 
 #import <Foundation/Foundation.h>
 #import "UIViewController+PresentStack.h"
 #define FACADE [FLFacade shareManager]
+
+typedef NS_ENUM(NSUInteger, FLFacadeAnimateType) {
+    FLFacadeAnimateTypeNone = 0,
+    FLFacadeAnimateTypeFade,
+    FLFacadeAnimateTypeFadeFromLeft,
+    FLFacadeAnimateTypeFadeFromRight,
+    FLFacadeAnimateTypeFadeFromTop,
+    FLFacadeAnimateTypeFadeFromBottom,
+    FLFacadeAnimateTypeFadeByScaleSmall,
+    FLFacadeAnimateTypeFadeByScaleBig,
+    FLFacadeAnimateTypeFlipFromLeft,
+    FLFacadeAnimateTypeFlipFromRight,
+    FLFacadeAnimateTypeFlipFromTop,
+    FLFacadeAnimateTypeFlipFromBottom,
+    FLFacadeAnimateTypeCurlUp,
+    FLFacadeAnimateTypeCurlDown,
+    FLFacadeAnimateTypeCrossDissolve
+};
 
 @interface FLFacade : NSObject
 
@@ -194,19 +212,19 @@
 #pragma mark - Dismiss
 
 /**
- Dismiss 移除当前控制器
+ Dismiss 移除当前控制器,如果没有PresentStackController，默认就会执行系统的dismiss方法
  */
 - (void)dismissViewController;
 
 /**
- Dismiss 移除当前控制器
+ Dismiss 移除当前控制器,如果没有PresentStackController，默认就会执行系统的dismiss方法
 
  @param animated 是否动画
  */
 - (void)dismissViewControllerAnimated: (BOOL)animated;
 
 /**
- Dismiss 移除当前控制器
+ Dismiss 移除当前控制器,如果没有PresentStackController，默认就会执行系统的dismiss方法
 
  @param animated 是否动画
  @param completion 完成回调
@@ -214,7 +232,7 @@
 - (void)dismissViewControllerAnimated: (BOOL)animated completion: (void (^)())completion;
 
 /**
- Dismiss 移除控制器，回到根控制器，此时如果没有创建PresentStackController，那么不执行任何操作
+ Dismiss 移除控制器，回到根控制器，此时如果没有创建PresentStackController，默认就会执行系统的dismiss方法
 
  @param animated 是否动画
  @param completion 完成回调
@@ -222,7 +240,7 @@
 - (void)dismissToRootViewControllerAnimated: (BOOL)animated completion: (void (^)())completion;
 
 /**
- Dismiss 移除控制器，回到指定下标的位置，此时如果没有创建PresentStackController，那么不执行任何操作
+ Dismiss 移除控制器，回到指定下标的位置，此时如果没有创建PresentStackController，默认就会执行系统的dismiss方法
 
  @param index 指定下标
  @param animated 是否动画
@@ -231,12 +249,106 @@
 - (void)dismissToIndex:(NSInteger)index animated: (BOOL)animated completion: (void (^)())completion;
 
 /**
- Dismiss 移除控制器，回到指定控制器，此时如果没有创建PresentStackController，那么不执行任何操作
+ Dismiss 移除控制器，回到指定控制器，此时如果没有创建PresentStackController，默认就会执行系统的dismiss方法
 
  @param viewController 指定控制器
  @param animated 是否动画
  @param completion 完成回调
  */
 - (void)dismissToViewController:(UIViewController *)viewController animated: (BOOL)animated completion: (void (^)())completion;
+
+#pragma mark - Embed
+
+/**
+ Embed 控制器，默认动画是FLFacadeAnimateTypeFade 淡入， 默认动画时间0.25s，默认相同类名的控制器不能重复embed
+
+ @param vc 需要Embed的控制器
+ */
+- (void)embedViewController:(UIViewController *)vc;
+
+/**
+ Embed 控制器，默认动画是FLFacadeAnimateTypeFade 淡入， 默认动画时间0.25s，默认相同类名的控制器不能重复embed
+
+ @param vc 需要Embed的控制器
+ @param completion 完成回调
+ */
+- (void)embedViewController:(UIViewController *)vc completion:(void (^)())completion;
+
+/**
+ Embed 控制器， 默认动画时间0.25s，默认相同类名的控制器不能重复embed
+
+ @param vc 需要Embed的控制器
+ @param animateType 动画类型
+ @param completion 完成回调
+ */
+- (void)embedViewController:(UIViewController *)vc animateType:(FLFacadeAnimateType)animateType completion:(void (^)())completion;
+
+/**
+ Embed 控制器，默认相同类名的控制器不能重复embed
+
+ @param vc 需要Embed的控制器
+ @param animateType 动画类型
+ @param duration 动画持续时间
+ @param completion 完成回调
+ */
+- (void)embedViewController:(UIViewController *)vc animateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration completion:(void (^)())completion;
+
+#pragma mark - Remove Embed
+
+/**
+ Remove Embed 控制器，默认只会移除childViewControllers最上层一个，默认动画是FLFacadeAnimateTypeFade，默认动画持续时间是0.25s
+ */
+- (void)removeEmbedViewController;
+
+/**
+ Remove Embed 控制器，默认只会移除childViewControllers最上层一个，默认动画是FLFacadeAnimateTypeFade，默认动画持续时间是0.25s
+
+ @param completion 完成回调
+ */
+- (void)removeEmbedViewControllerCompletion:(void (^)())completion;
+
+/**
+ Remove Embed 控制器，默认动画是FLFacadeAnimateTypeFade，默认动画持续时间是0.25s
+
+ @param vc 需要remove的控制器，此时控制器必须是childViewController，否者不执行任何操作
+ @param completion 完成回调
+ */
+- (void)removeEmbedViewController:(UIViewController *)vc completion:(void (^)())completion;
+
+/**
+ Remove Embed 控制器，默认动画持续时间是0.25s
+
+ @param animateType 动画类型
+ @param completion 完成回调
+ */
+- (void)removeEmbedViewControllerWithAnimateType:(FLFacadeAnimateType)animateType completion:(void (^)())completion;
+
+/**
+ Remove 当前 Embed 控制器
+
+ @param animateType 动画类型
+ @param duration 动画执行时间
+ @param completion 完成回调
+ */
+- (void)removeEmbedViewControllerWithAnimateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration completion:(void (^)())completion;
+
+/**
+ Remove 当前 Embed 控制器
+
+ @param vc 需要remove的控制器，此时控制器必须是childViewController，否者不执行任何操作
+ @param animateType 动画类型
+ @param completion 完成回调
+ */
+- (void)removeEmbedViewController:(UIViewController *)vc animateType:(FLFacadeAnimateType)animateType completion:(void (^)())completion;
+
+/**
+ Remove 当前 Embed 控制器
+
+ @param vc 需要remove的控制器，此时控制器必须是childViewController，否者不执行任何操作
+ @param animateType 动画类型
+ @param duration 动画执行时间
+ @param completion 完成回调
+ */
+- (void)removeEmbedViewController:(UIViewController *)vc animateType:(FLFacadeAnimateType)animateType duration:(NSTimeInterval)duration completion:(void (^)())completion;
 
 @end

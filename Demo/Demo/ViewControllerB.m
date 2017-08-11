@@ -9,6 +9,7 @@
 #import "ViewControllerB.h"
 #import "FLFacade.h"
 #import "PushViewController.h"
+#import "ViewControllerC.h"
 @interface ViewControllerB ()
 
 @end
@@ -18,8 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor blueColor];
-    
+    self.view.backgroundColor = [UIColor purpleColor];
+    self.title = @"VC-B";
     UILabel *label = [[UILabel alloc] init];
     label.text = @"点我回到第一个界面";
     label.center = self.view.center;
@@ -33,6 +34,11 @@
         [FACADE dismissToRootViewControllerAnimated:YES completion:nil];
     }
     else {
+        if (self.isNeedPopBack) {
+            ViewControllerC *vc = [[ViewControllerC alloc] init];
+            [FACADE pushViewController:vc];
+            return;
+        }
         [FACADE popToRootViewControllerAnimated:YES complete:nil];
     }
 }
