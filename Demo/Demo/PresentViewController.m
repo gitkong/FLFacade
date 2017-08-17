@@ -18,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.tableView.contentInset = UIEdgeInsetsMake(60, 0, 0, 0);
     self.dataSource = @[@"系统控制，只能单层dismiss", @"PresentStack控制，可多层任意dismiss"];
 }
 

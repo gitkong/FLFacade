@@ -121,10 +121,6 @@
                 }
                 [arrM addObject:viewController];
                 [strongSelf setViewControllers:arrM animated:NO];
-                if (index == 0) {
-                    [arrM removeObjectAtIndex:index];
-                    [strongSelf setViewControllers:arrM animated:NO];
-                }
             }
             else {
                 [strongSelf setViewControllers:arrM animated:animated];

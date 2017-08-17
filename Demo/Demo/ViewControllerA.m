@@ -39,8 +39,6 @@
         [btn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:btn];
     }
-    
-    
 }
 
 - (void)back {
@@ -110,12 +108,13 @@
 
 - (UITableView *)tableView {
     if (_tableView == nil) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
         _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
         _tableView.backgroundColor = [UIColor grayColor];
+        _tableView.contentInset = UIEdgeInsetsMake(64, 0, 60, 0);
     }
     return _tableView;
 }

@@ -19,6 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.tableView.contentInset = UIEdgeInsetsZero;
+    self.navigationItem.title = @"gitKong";
     self.dataSource = @[@"Embed None",
                         @"Embed Fade",
                         @"Embed FadeFromLeft",
@@ -41,6 +43,7 @@
     ViewControllerA *vc = [[ViewControllerA alloc] init];
     vc.isEmbed = YES;
     [FACADE embedViewController:vc animateType:row duration:1.25 completion:nil];
+    
 }
 
 @end
