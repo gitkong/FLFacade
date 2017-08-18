@@ -19,7 +19,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.dataSource = @[@"正常跳转", @"同名控制器-跳转返回-重新加载", @"同名控制器-跳转返回-不重新加载",@"同名控制器-跳转不返回"];
-    NSLog(@"我是否重新加载了");
+    NSLog(@"我是否重新加载了,%zd",self.isNewVc);
     self.navigationItem.title = @"gitKong";
 }
 

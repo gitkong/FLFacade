@@ -69,6 +69,7 @@
             }
             else {
                 PushViewController *pushVc = [[PushViewController alloc] init];
+                pushVc.isNewVc = YES;
                 [FACADE pushViewController:pushVc animated:YES needBack:self.isNeedPopBack needReload:self.isNeedReload complete:nil];
             }
         }

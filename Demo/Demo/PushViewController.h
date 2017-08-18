@@ -10,4 +10,6 @@
 
 @interface PushViewController : BaseViewController
 
+@property (nonatomic, assign) BOOL  isNewVc;
+
 @end
