@@ -14,5 +14,7 @@
 
 @property (nonatomic, strong) NSDictionary * params;
 
+@property (nonatomic, strong) UIImage * image;
+
 @end
 

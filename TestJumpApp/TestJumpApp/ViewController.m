@@ -11,6 +11,7 @@
 @interface ViewController ()
 @property (nonatomic, strong) UITextView * textView;
 @property (nonatomic, strong) UILabel * label;
+@property (nonatomic, strong) UIImageView * imageView;
 @end
 
 @implementation ViewController
@@ -21,6 +22,14 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.label];
     [self.view addSubview:self.textView];
+    [self.view addSubview:self.imageView];
+    
+    NSLog(@"%@",NSStringFromRange([@"a=v&c=d&d=e==" rangeOfString:@"="]));
+}
+
+- (void)setImage:(UIImage *)image {
+    _image = image;
+    self.imageView.image = image;
 }
 
 - (void)setUrl:(NSString *)url {
@@ -31,6 +40,12 @@
 - (void)setParams:(NSDictionary *)params {
     _params = params;
     self.textView.text = [NSString stringWithFormat:@"params: %@",params];
+    NSString *dataStr = params[@"imageStr"];
+    NSData  *data   = [[NSData alloc] initWithBase64Encoding:dataStr];
+    UIImage *image = [UIImage imageWithData:data];
+    if (image) {
+        self.image = image;
+    }
 }
 
 - (UILabel *)label {
@@ -43,10 +58,17 @@
 
 - (UITextView *)textView {
     if (_textView == nil) {
-        _textView = [[UITextView alloc] initWithFrame:CGRectMake(20, 200, self.view.bounds.size.width - 40, self.view.bounds.size.height - 200)];
+        _textView = [[UITextView alloc] initWithFrame:CGRectMake(20, 200, self.view.bounds.size.width - 40, 300)];
         _textView.text = @"传过来的参数";
     }
     return _textView;
+}
+
+- (UIImageView *)imageView {
+    if (_imageView == nil) {
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 500, 100, 100)];
+    }
+    return _imageView;
 }
 
 @end

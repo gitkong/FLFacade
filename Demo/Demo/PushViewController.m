@@ -34,7 +34,11 @@
 //        
 //    }];
     
-    [FACADE openAppWithUrlScheme:@"TestJump://name=gitKong&content=hello world" params:@{@"name" : @"小洁猪", @"msg" : @"凡大叔爱小洁猪", @"" : @"xxx"} complete:^(BOOL success) {
+    UIImage *image = [UIImage imageNamed:@"爵 续费0001"];
+    NSData *data = UIImagePNGRepresentation(image);
+    NSString *imageStr = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    
+    [FACADE openAppWithUrlScheme:@"TestJump://name=gitKong&content=hello world" params:@{@"name" : @"小洁猪", @"msg" : @"凡大叔爱小洁猪", @"imageStr" : imageStr} complete:^(BOOL success) {
         
     }];
 }

@@ -53,9 +53,11 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
         }
         NSArray *paramArr = [str componentsSeparatedByString:@"&"];
         for (NSString *keyValueStr in paramArr) {
-            NSArray *keyValueArr = [keyValueStr componentsSeparatedByString:@"="];
-            NSString *key = keyValueArr.firstObject;
-            id value = keyValueArr.lastObject;
+            // 避免传图片字符串出现解析错误
+            NSUInteger location = [keyValueStr rangeOfString:@"="].location;
+            NSString *key = [keyValueStr substringToIndex:location];
+            id value = [keyValueStr substringFromIndex:location + 1];
+            
             if ([self isNotBlank:key] && value) {
                 [params setValue:value forKey:key];
             }
