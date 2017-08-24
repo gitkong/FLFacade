@@ -35,7 +35,7 @@
 
 - (UILabel *)label {
     if (_label == nil) {
-        _label = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, 300, 60)];
+        _label = [[UILabel alloc] initWithFrame:CGRectMake(20, 100, 300, 100)];
         _label.numberOfLines = 0;
     }
     return _label;

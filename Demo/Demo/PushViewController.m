@@ -30,7 +30,11 @@
 
 - (void)urlParams {
     //params?param1=111&param2=222
-    [FACADE openAppWithUrlScheme:@"TestJump://name=gitKong&lover=小洁猪&content=hello world" params:nil complete:^(BOOL success) {
+//    [FACADE openAppWithUrlScheme:@"TestJump://name=gitKong&content=hello world" params:nil complete:^(BOOL success) {
+//        
+//    }];
+    
+    [FACADE openAppWithUrlScheme:@"TestJump://name=gitKong&content=hello world" params:@{@"name" : @"小洁猪", @"msg" : @"凡大叔爱小洁猪", @"" : @"xxx"} complete:^(BOOL success) {
         
     }];
 }
@@ -39,7 +43,7 @@
     
 //    NSLog(@"%@",[FACADE paramsByOpenAppWithUrl:@"TestJump://name=凡大叔&lover=小洁猪&content=loveforever&"]);
     
-    [FACADE openAppWithUrlScheme:@"TestJump" params:@{@"name" : @"gitKong", @"msg" : @"凡大叔爱小洁猪", @"" : @"xxx"} complete:^(BOOL success) {
+    [FACADE openAppWithUrlScheme:@"TestJump://openurl" params:@{@"name" : @"gitKong", @"msg" : @"凡大叔爱小洁猪", @"" : @"xxx"} complete:^(BOOL success) {
         
     }];
     

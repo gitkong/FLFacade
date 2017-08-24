@@ -44,7 +44,13 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
 - (NSDictionary *)paramsByOpenAppWithUrl:(NSString *)url {
     if ([url rangeOfString:@"://"].location != NSNotFound) {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        NSString *str = [url componentsSeparatedByString:@"://"].lastObject;
+        NSString *str = @"";
+        if ([url rangeOfString:@"?"].location != NSNotFound) {
+            str = [url componentsSeparatedByString:@"?"].lastObject;
+        }
+        else {
+            str = [url componentsSeparatedByString:@"://"].lastObject;
+        }
         NSArray *paramArr = [str componentsSeparatedByString:@"&"];
         for (NSString *keyValueStr in paramArr) {
             NSArray *keyValueArr = [keyValueStr componentsSeparatedByString:@"="];
@@ -62,6 +68,14 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
 - (void)openAppWithUrlScheme:(NSString *)urlScheme params:(NSDictionary<NSString *, id> *)params complete:(void(^)(BOOL success))complete {
     if (![self isNotBlank:urlScheme]) return;
     NSString *urlString = [urlScheme rangeOfString:@"://"].location != NSNotFound ? urlScheme : [urlScheme stringByAppendingString:@"://"];
+    if (![[urlString substringWithRange:NSMakeRange(urlString.length - 3, 3)] isEqualToString:@"://"]) {
+        if ([urlString rangeOfString:@"&"].location != NSNotFound) {
+            urlString = [urlString stringByAppendingString:@"&"];
+        }
+        else {
+            urlString = [urlString stringByAppendingString:@"?"];
+        }
+    }
     if (params) {
         __block NSString *paramsStr = @"";
         [params enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {

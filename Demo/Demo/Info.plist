@@ -21,6 +21,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>TestJump</string>
+		<string>yykiwi</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

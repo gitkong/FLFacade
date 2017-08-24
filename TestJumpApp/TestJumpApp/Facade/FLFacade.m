@@ -44,7 +44,13 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
 - (NSDictionary *)paramsByOpenAppWithUrl:(NSString *)url {
     if ([url rangeOfString:@"://"].location != NSNotFound) {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        NSString *str = [url componentsSeparatedByString:@"://"].lastObject;
+        NSString *str = @"";
+        if ([url rangeOfString:@"?"].location != NSNotFound) {
+            str = [url componentsSeparatedByString:@"?"].lastObject;
+        }
+        else {
+            str = [url componentsSeparatedByString:@"://"].lastObject;
+        }
         NSArray *paramArr = [str componentsSeparatedByString:@"&"];
         for (NSString *keyValueStr in paramArr) {
             NSArray *keyValueArr = [keyValueStr componentsSeparatedByString:@"="];
