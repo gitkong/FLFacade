@@ -65,26 +65,16 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
     if (params) {
         __block NSString *paramsStr = @"";
         [params enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            if ([self isNotBlank:key] && obj) {
-                paramsStr = [paramsStr stringByAppendingString: [NSString stringWithFormat:@"%@=%@&",key,obj]];
-            }
+            paramsStr = [NSString stringWithFormat:@"%@=%@&",key,obj];
         }];
-        if (paramsStr.length > 0) {
-            paramsStr = [paramsStr stringByReplacingOccurrencesOfString:@"&" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(paramsStr.length - 1, 1)];
-            urlString = [urlString stringByAppendingString:paramsStr];
-        }
+        [paramsStr stringByReplacingOccurrencesOfString:@"&" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(paramsStr.length - 1, 1)];
+        [urlString stringByAppendingString:paramsStr];
     }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-#pragma clang diagnostic pop
     NSURL *url = [NSURL URLWithString:urlString];
     if ([APPLICATION canOpenURL:url]) {
         if ([[[UIDevice currentDevice] systemVersion] compare:@"10.0" options:NSNumericSearch] == NSOrderedAscending) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             BOOL success = [APPLICATION openURL:url];
-#pragma clang diagnostic pop
             if (complete) {
                 complete(success);
             }

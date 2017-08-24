@@ -21,6 +21,28 @@
     self.dataSource = @[@"正常跳转", @"同名控制器-跳转返回-重新加载", @"同名控制器-跳转返回-不重新加载",@"同名控制器-跳转不返回"];
     NSLog(@"我是否重新加载了,%zd",self.isNewVc);
     self.navigationItem.title = @"gitKong";
+    
+    self.navigationItem.rightBarButtonItems = @[
+                                                [[UIBarButtonItem alloc] initWithTitle:@"url" style:UIBarButtonItemStyleDone target:self action:@selector(urlParams)],
+                                                [[UIBarButtonItem alloc] initWithTitle:@"options" style:UIBarButtonItemStyleDone target:self action:@selector(optionsParams)]
+                                                ];
+}
+
+- (void)urlParams {
+    //params?param1=111&param2=222
+    [FACADE openAppWithUrlScheme:@"TestJump://name=gitKong&lover=小洁猪&content=hello world" params:nil complete:^(BOOL success) {
+        
+    }];
+}
+
+- (void)optionsParams {
+    
+//    NSLog(@"%@",[FACADE paramsByOpenAppWithUrl:@"TestJump://name=凡大叔&lover=小洁猪&content=loveforever&"]);
+    
+    [FACADE openAppWithUrlScheme:@"TestJump" params:@{@"name" : @"gitKong", @"msg" : @"凡大叔爱小洁猪", @"" : @"xxx"} complete:^(BOOL success) {
+        
+    }];
+    
 }
 
 - (void)didSelectRow:(NSInteger)row {
