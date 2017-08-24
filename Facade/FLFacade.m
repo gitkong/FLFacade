@@ -30,18 +30,83 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
     return facade;
 }
 
-- (void)openAppWithUrl:(NSString *)urlString options:(NSDictionary<NSString *, id> *)options complete:(void(^)(BOOL success))complete {
-    if (!urlString) return;
+- (BOOL)isNotBlank:(NSString *)string {
+    NSCharacterSet *blank = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+    for (NSInteger i = 0; i < string.length; ++i) {
+        unichar c = [string characterAtIndex:i];
+        if (![blank characterIsMember:c]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (NSDictionary *)paramsByOpenAppWithUrl:(NSString *)url {
+    if ([url rangeOfString:@"://"].location != NSNotFound) {
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        NSString *str = @"";
+        if ([url rangeOfString:@"?"].location != NSNotFound) {
+            str = [url componentsSeparatedByString:@"?"].lastObject;
+        }
+        else {
+            str = [url componentsSeparatedByString:@"://"].lastObject;
+        }
+        NSArray *paramArr = [str componentsSeparatedByString:@"&"];
+        for (NSString *keyValueStr in paramArr) {
+            // 避免传图片字符串出现解析错误
+            NSUInteger location = [keyValueStr rangeOfString:@"="].location;
+            NSString *key = [keyValueStr substringToIndex:location];
+            id value = [keyValueStr substringFromIndex:location + 1];
+            
+            if ([self isNotBlank:key] && value) {
+                [params setValue:value forKey:key];
+            }
+        }
+        return params;
+    }
+    return nil;
+}
+
+- (void)openAppWithUrlScheme:(NSString *)urlScheme params:(NSDictionary<NSString *, id> *)params complete:(void(^)(BOOL success))complete {
+    if (![self isNotBlank:urlScheme]) return;
+    NSString *urlString = [urlScheme rangeOfString:@"://"].location != NSNotFound ? urlScheme : [urlScheme stringByAppendingString:@"://"];
+    if (![[urlString substringWithRange:NSMakeRange(urlString.length - 3, 3)] isEqualToString:@"://"]) {
+        if ([urlString rangeOfString:@"&"].location != NSNotFound) {
+            urlString = [urlString stringByAppendingString:@"&"];
+        }
+        else {
+            urlString = [urlString stringByAppendingString:@"?"];
+        }
+    }
+    if (params) {
+        __block NSString *paramsStr = @"";
+        [params enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            if ([self isNotBlank:key] && obj) {
+                paramsStr = [paramsStr stringByAppendingString: [NSString stringWithFormat:@"%@=%@&",key,obj]];
+            }
+        }];
+        if (paramsStr.length > 0) {
+            paramsStr = [paramsStr stringByReplacingOccurrencesOfString:@"&" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(paramsStr.length - 1, 1)];
+            urlString = [urlString stringByAppendingString:paramsStr];
+        }
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+#pragma clang diagnostic pop
     NSURL *url = [NSURL URLWithString:urlString];
     if ([APPLICATION canOpenURL:url]) {
         if ([[[UIDevice currentDevice] systemVersion] compare:@"10.0" options:NSNumericSearch] == NSOrderedAscending) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             BOOL success = [APPLICATION openURL:url];
+#pragma clang diagnostic pop
             if (complete) {
                 complete(success);
             }
         }
         else {
-            [APPLICATION openURL:url options:options ? options : @{} completionHandler:^(BOOL success) {
+            [APPLICATION openURL:url options:@{} completionHandler:^(BOOL success) {
                 if (complete) {
                     complete(success);
                 }

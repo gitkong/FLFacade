@@ -43,13 +43,21 @@ typedef NS_ENUM(NSUInteger, FLFacadeAnimateType) {
 #pragma mark - openUrl
 
 /**
+ 应用内跳转所传参数
+
+ @param url 应用内跳转路径
+ @return 跳转所传参数
+ */
+- (NSDictionary *)paramsByOpenAppWithUrl:(NSString *)url;
+
+/**
  应用内跳转
 
- @param urlString 跳转链接
- @param options 配置参数
+ @param urlScheme 跳转应用的URL Scheme
+ @param params 配置参数
  @param complete 完成回调
  */
-- (void)openAppWithUrl:(NSString *)urlString options:(NSDictionary<NSString *, id> *)options complete:(void(^)(BOOL success))complete;
+- (void)openAppWithUrlScheme:(NSString *)urlScheme params:(NSDictionary<NSString *, id> *)params complete:(void(^)(BOOL success))complete;
 
 /**
  跳转苹果商店

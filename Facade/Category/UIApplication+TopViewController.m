@@ -12,7 +12,9 @@
 @implementation UIApplication (TopViewController)
 
 - (UIViewController *)topViewController {
-    return [self visibleViewControllerFrom:self.keyWindow.rootViewController];
+//    return [self visibleViewControllerFrom:self.keyWindow.rootViewController];
+    // 修复：出现弹出导致keywindow改变，获取控制器有误
+    return [self visibleViewControllerFrom:self.delegate.window.rootViewController];
 }
 
 - (UIViewController *)visibleViewControllerFrom:(UIViewController *)vc {
