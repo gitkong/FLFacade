@@ -19,6 +19,8 @@
 		3F617BEE1F4EAD59009987B2 /* FLFacade.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F617BE51F4EAD59009987B2 /* FLFacade.m */; };
 		3F617BEF1F4EAD59009987B2 /* FLPresentStackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F617BE81F4EAD59009987B2 /* FLPresentStackController.m */; };
 		3F617BF01F4EAD59009987B2 /* UIViewController+PresentStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F617BEA1F4EAD59009987B2 /* UIViewController+PresentStack.m */; };
+		3F617BFB1F4FD564009987B2 /* NSString+Facade.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F617BF81F4FD564009987B2 /* NSString+Facade.m */; };
+		3F617BFC1F4FD564009987B2 /* UIImage+Facade.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F617BFA1F4FD564009987B2 /* UIImage+Facade.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,10 @@
 		3F617BE81F4EAD59009987B2 /* FLPresentStackController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLPresentStackController.m; sourceTree = "<group>"; };
 		3F617BE91F4EAD59009987B2 /* UIViewController+PresentStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PresentStack.h"; sourceTree = "<group>"; };
 		3F617BEA1F4EAD59009987B2 /* UIViewController+PresentStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PresentStack.m"; sourceTree = "<group>"; };
+		3F617BF71F4FD564009987B2 /* NSString+Facade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Facade.h"; sourceTree = "<group>"; };
+		3F617BF81F4FD564009987B2 /* NSString+Facade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Facade.m"; sourceTree = "<group>"; };
+		3F617BF91F4FD564009987B2 /* UIImage+Facade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Facade.h"; sourceTree = "<group>"; };
+		3F617BFA1F4FD564009987B2 /* UIImage+Facade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Facade.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +124,10 @@
 				3F617BE11F4EAD59009987B2 /* UINavigationController+Jump.m */,
 				3F617BE21F4EAD59009987B2 /* UIViewController+NavStack.h */,
 				3F617BE31F4EAD59009987B2 /* UIViewController+NavStack.m */,
+				3F617BF71F4FD564009987B2 /* NSString+Facade.h */,
+				3F617BF81F4FD564009987B2 /* NSString+Facade.m */,
+				3F617BF91F4FD564009987B2 /* UIImage+Facade.h */,
+				3F617BFA1F4FD564009987B2 /* UIImage+Facade.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -212,7 +222,9 @@
 				3F617BCA1F4E6EA3009987B2 /* AppDelegate.m in Sources */,
 				3F617BEE1F4EAD59009987B2 /* FLFacade.m in Sources */,
 				3F617BC71F4E6EA3009987B2 /* main.m in Sources */,
+				3F617BFB1F4FD564009987B2 /* NSString+Facade.m in Sources */,
 				3F617BEC1F4EAD59009987B2 /* UINavigationController+Jump.m in Sources */,
+				3F617BFC1F4FD564009987B2 /* UIImage+Facade.m in Sources */,
 				3F617BED1F4EAD59009987B2 /* UIViewController+NavStack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

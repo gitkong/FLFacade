@@ -9,6 +9,7 @@
 #import "PushViewController.h"
 #import "ViewControllerA.h"
 #import "FLFacade.h"
+#import "UIImage+Facade.h"
 @interface PushViewController ()
 
 @end
@@ -35,10 +36,9 @@
 //    }];
     
     UIImage *image = [UIImage imageNamed:@"爵 续费0001"];
-    NSData *data = UIImagePNGRepresentation(image);
-    NSString *imageStr = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    NSString *imageStr = image.PNGBase64String;
     
-    [FACADE openAppWithUrlScheme:@"TestJump://name=gitKong&content=hello world" params:@{@"name" : @"小洁猪", @"msg" : @"凡大叔爱小洁猪", @"imageStr" : imageStr} complete:^(BOOL success) {
+    [FACADE openAppWithUrlScheme:@"TestJump://name=gitKong&content=hello world" params:@{@"name" : @"lie", @"msg" : @"我是内容", @"imageStr" : imageStr} complete:^(BOOL success) {
         
     }];
 }
@@ -47,7 +47,7 @@
     
 //    NSLog(@"%@",[FACADE paramsByOpenAppWithUrl:@"TestJump://name=凡大叔&lover=小洁猪&content=loveforever&"]);
     
-    [FACADE openAppWithUrlScheme:@"TestJump://openurl" params:@{@"name" : @"gitKong", @"msg" : @"凡大叔爱小洁猪", @"" : @"xxx"} complete:^(BOOL success) {
+    [FACADE openAppWithUrlScheme:@"TestJump://openurl" params:@{@"name" : @"gitKong", @"msg" : @"我也是内容", @"" : @"xxx"} complete:^(BOOL success) {
         
     }];
     

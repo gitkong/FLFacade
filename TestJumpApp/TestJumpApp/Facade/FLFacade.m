@@ -10,6 +10,7 @@
 #import <StoreKit/StoreKit.h>
 #import "UIApplication+TopViewController.h"
 #import "UINavigationController+Jump.h"
+#import "NSString+Facade.h"
 
 #define APPLICATION [UIApplication sharedApplication]
 
@@ -30,17 +31,6 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
     return facade;
 }
 
-- (BOOL)isNotBlank:(NSString *)string {
-    NSCharacterSet *blank = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-    for (NSInteger i = 0; i < string.length; ++i) {
-        unichar c = [string characterAtIndex:i];
-        if (![blank characterIsMember:c]) {
-            return YES;
-        }
-    }
-    return NO;
-}
-
 - (NSDictionary *)paramsByOpenAppWithUrl:(NSString *)url {
     if ([url rangeOfString:@"://"].location != NSNotFound) {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -58,7 +48,7 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
             NSString *key = [keyValueStr substringToIndex:location];
             id value = [keyValueStr substringFromIndex:location + 1];
             
-            if ([self isNotBlank:key] && value) {
+            if (key.isNotBlank && value) {
                 [params setValue:value forKey:key];
             }
         }
@@ -68,7 +58,7 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
 }
 
 - (void)openAppWithUrlScheme:(NSString *)urlScheme params:(NSDictionary<NSString *, id> *)params complete:(void(^)(BOOL success))complete {
-    if (![self isNotBlank:urlScheme]) return;
+    if (!urlScheme.isNotBlank) return;
     NSString *urlString = [urlScheme rangeOfString:@"://"].location != NSNotFound ? urlScheme : [urlScheme stringByAppendingString:@"://"];
     if (![[urlString substringWithRange:NSMakeRange(urlString.length - 3, 3)] isEqualToString:@"://"]) {
         if ([urlString rangeOfString:@"&"].location != NSNotFound) {
@@ -81,7 +71,7 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
     if (params) {
         __block NSString *paramsStr = @"";
         [params enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            if ([self isNotBlank:key] && obj) {
+            if (key.isNotBlank && obj) {
                 paramsStr = [paramsStr stringByAppendingString: [NSString stringWithFormat:@"%@=%@&",key,obj]];
             }
         }];

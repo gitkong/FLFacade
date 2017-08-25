@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "NSString+Facade.h"
 @interface ViewController ()
 @property (nonatomic, strong) UITextView * textView;
 @property (nonatomic, strong) UILabel * label;
@@ -41,8 +41,7 @@
     _params = params;
     self.textView.text = [NSString stringWithFormat:@"params: %@",params];
     NSString *dataStr = params[@"imageStr"];
-    NSData  *data   = [[NSData alloc] initWithBase64Encoding:dataStr];
-    UIImage *image = [UIImage imageWithData:data];
+    UIImage *image = dataStr.imageFromBase64String;
     if (image) {
         self.image = image;
     }

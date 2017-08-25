@@ -22,6 +22,8 @@
 		3F305C7A1F17503D00926B3A /* PresentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F305C791F17503D00926B3A /* PresentViewController.m */; };
 		3F305C7D1F17508600926B3A /* ViewControllerA.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F305C7C1F17508600926B3A /* ViewControllerA.m */; };
 		3F305C801F17509200926B3A /* ViewControllerB.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F305C7F1F17509200926B3A /* ViewControllerB.m */; };
+		3F617BF31F4FD270009987B2 /* NSString+Facade.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F617BF21F4FD270009987B2 /* NSString+Facade.m */; };
+		3F617BF61F4FD27C009987B2 /* UIImage+Facade.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F617BF51F4FD27C009987B2 /* UIImage+Facade.m */; };
 		3FBB740F1F3DB5BF00589D27 /* ViewControllerC.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FBB740E1F3DB5BF00589D27 /* ViewControllerC.m */; };
 		3FF843D31F34610B0000218D /* EmbedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FF843D21F34610B0000218D /* EmbedViewController.m */; };
 		3FF843D61F346C190000218D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FF843D51F346C190000218D /* BaseViewController.m */; };
@@ -56,6 +58,10 @@
 		3F305C7C1F17508600926B3A /* ViewControllerA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerA.m; sourceTree = "<group>"; };
 		3F305C7E1F17509200926B3A /* ViewControllerB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerB.h; sourceTree = "<group>"; };
 		3F305C7F1F17509200926B3A /* ViewControllerB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerB.m; sourceTree = "<group>"; };
+		3F617BF11F4FD270009987B2 /* NSString+Facade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Facade.h"; sourceTree = "<group>"; };
+		3F617BF21F4FD270009987B2 /* NSString+Facade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Facade.m"; sourceTree = "<group>"; };
+		3F617BF41F4FD27C009987B2 /* UIImage+Facade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Facade.h"; sourceTree = "<group>"; };
+		3F617BF51F4FD27C009987B2 /* UIImage+Facade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Facade.m"; sourceTree = "<group>"; };
 		3FBB740D1F3DB5BF00589D27 /* ViewControllerC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerC.h; sourceTree = "<group>"; };
 		3FBB740E1F3DB5BF00589D27 /* ViewControllerC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerC.m; sourceTree = "<group>"; };
 		3FF843D11F34610B0000218D /* EmbedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmbedViewController.h; sourceTree = "<group>"; };
@@ -159,6 +165,10 @@
 				3F305C6F1F174F2500926B3A /* UINavigationController+Jump.m */,
 				3F305C701F174F2500926B3A /* UIViewController+NavStack.h */,
 				3F305C711F174F2500926B3A /* UIViewController+NavStack.m */,
+				3F617BF11F4FD270009987B2 /* NSString+Facade.h */,
+				3F617BF21F4FD270009987B2 /* NSString+Facade.m */,
+				3F617BF41F4FD27C009987B2 /* UIImage+Facade.h */,
+				3F617BF51F4FD27C009987B2 /* UIImage+Facade.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -238,6 +248,7 @@
 				3F305C7A1F17503D00926B3A /* PresentViewController.m in Sources */,
 				3F305C731F174F2500926B3A /* UINavigationController+Jump.m in Sources */,
 				3F305C671F174D8400926B3A /* UIViewController+PresentStack.m in Sources */,
+				3F617BF31F4FD270009987B2 /* NSString+Facade.m in Sources */,
 				3FF843D31F34610B0000218D /* EmbedViewController.m in Sources */,
 				3F305C771F17502600926B3A /* PushViewController.m in Sources */,
 				3FF843D61F346C190000218D /* BaseViewController.m in Sources */,
@@ -248,6 +259,7 @@
 				3F305C721F174F2500926B3A /* UIApplication+TopViewController.m in Sources */,
 				3FBB740F1F3DB5BF00589D27 /* ViewControllerC.m in Sources */,
 				3F305C421F174C1F00926B3A /* main.m in Sources */,
+				3F617BF61F4FD27C009987B2 /* UIImage+Facade.m in Sources */,
 				3F305C7D1F17508600926B3A /* ViewControllerA.m in Sources */,
 				3F305C741F174F2500926B3A /* UIViewController+NavStack.m in Sources */,
 			);
