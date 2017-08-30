@@ -70,6 +70,14 @@ typedef NS_ENUM(NSUInteger, FLFacadeAnimateType) {
 #pragma mark - Push
 
 /**
+ 获取栈中已存在的控制器，相同则获取最后一个
+
+ @param vcClass 指定控制器的类名
+ @return 返回指定控制器
+ */
+- (__kindof UIViewController *)viewControllerBy:(Class)vcClass;
+
+/**
  Pop 到指定index 然后Push 跳转到指定控制器
 
  @param index 对应viewControllers的下标

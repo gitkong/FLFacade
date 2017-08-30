@@ -59,32 +59,8 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
 
 - (void)openAppWithUrlScheme:(NSString *)urlScheme params:(NSDictionary<NSString *, id> *)params complete:(void(^)(BOOL success))complete {
     if (!urlScheme.isNotBlank) return;
-    NSString *urlString = [urlScheme rangeOfString:@"://"].location != NSNotFound ? urlScheme : [urlScheme stringByAppendingString:@"://"];
-    if (![[urlString substringWithRange:NSMakeRange(urlString.length - 3, 3)] isEqualToString:@"://"]) {
-        if ([urlString rangeOfString:@"&"].location != NSNotFound) {
-            urlString = [urlString stringByAppendingString:@"&"];
-        }
-        else {
-            urlString = [urlString stringByAppendingString:@"?"];
-        }
-    }
-    if (params) {
-        __block NSString *paramsStr = @"";
-        [params enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            if (key.isNotBlank && obj) {
-                paramsStr = [paramsStr stringByAppendingString: [NSString stringWithFormat:@"%@=%@&",key,obj]];
-            }
-        }];
-        if (paramsStr.length > 0) {
-            paramsStr = [paramsStr stringByReplacingOccurrencesOfString:@"&" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(paramsStr.length - 1, 1)];
-            urlString = [urlString stringByAppendingString:paramsStr];
-        }
-    }
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-#pragma clang diagnostic pop
-    NSURL *url = [NSURL URLWithString:urlString];
+    NSURL *url = [self urlWithScheme:urlScheme params:params];
+    if (!url) return;
     if ([APPLICATION canOpenURL:url]) {
         if ([[[UIDevice currentDevice] systemVersion] compare:@"10.0" options:NSNumericSearch] == NSOrderedAscending) {
 #pragma clang diagnostic push
@@ -111,6 +87,7 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
 }
 
 - (void)openAppleStoreWithIdentifier:(NSString *)identifier complete:(void(^)(BOOL success))complete {
+    if (!identifier.isNotBlank) return;
     SKStoreProductViewController *appStore = [[SKStoreProductViewController alloc] init];
     appStore.delegate = self;
     // 先去跳转再去加载页面，优化体验
@@ -123,6 +100,10 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
 }
 
 #pragma mark - Push
+
+- (__kindof UIViewController *)viewControllerBy:(Class)vcClass {
+    return [self.currentNavigationController viewControllerBy:vcClass];
+}
 
 - (void)popToIndex:(NSInteger)index thenPushViewController:(UIViewController *)viewController animated:(BOOL)animated complete:(void(^)())complete {
     if (self.currentNavigationController) {
@@ -367,6 +348,36 @@ static CGFloat KDefault_Animate_Duration = 0.25f;
 }
 
 #pragma mark - private method
+
+- (NSURL *)urlWithScheme:(NSString *)urlScheme params:(NSDictionary<NSString *, id> *)params {
+    if (!urlScheme.isNotBlank) return nil;
+    NSString *urlString = [urlScheme rangeOfString:@"://"].location != NSNotFound ? urlScheme : [urlScheme stringByAppendingString:@"://"];
+    if (![[urlString substringWithRange:NSMakeRange(urlString.length - 3, 3)] isEqualToString:@"://"]) {
+        if ([urlString rangeOfString:@"&"].location != NSNotFound) {
+            urlString = [urlString stringByAppendingString:@"&"];
+        }
+        else {
+            urlString = [urlString stringByAppendingString:@"?"];
+        }
+    }
+    if (params) {
+        __block NSString *paramsStr = @"";
+        [params enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            if (key.isNotBlank && obj) {
+                paramsStr = [paramsStr stringByAppendingString: [NSString stringWithFormat:@"%@=%@&",key,obj]];
+            }
+        }];
+        if (paramsStr.length > 0) {
+            paramsStr = [paramsStr stringByReplacingOccurrencesOfString:@"&" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(paramsStr.length - 1, 1)];
+            urlString = [urlString stringByAppendingString:paramsStr];
+        }
+    }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+#pragma clang diagnostic pop
+    return  [NSURL URLWithString:urlString];
+}
 
 - (void)systemDismissAnimated:(BOOL)animated completion:(void (^)())completion {
     [self.currentViewController dismissViewControllerAnimated:animated completion:completion];

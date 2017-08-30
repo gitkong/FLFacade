@@ -29,6 +29,11 @@
                                                 ];
 }
 
+- (void)setIsNewVc:(BOOL)isNewVc {
+    _isNewVc = isNewVc;
+    NSLog(@"hello world");
+}
+
 - (void)urlParams {
     //params?param1=111&param2=222
 //    [FACADE openAppWithUrlScheme:@"TestJump://name=gitKong&content=hello world" params:nil complete:^(BOOL success) {

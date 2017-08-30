@@ -11,6 +11,21 @@
 
 @implementation UINavigationController (Jump)
 
+- (UIViewController *)viewControllerBy:(Class)vcClass {
+    if (self && self.viewControllers.count > 0) {
+        if ([vcClass isSubclassOfClass:[UIViewController class]]) {
+            NSMutableArray *tempArrM = [NSMutableArray array];
+            for (UIViewController *controller in self.viewControllers) {
+                if ([controller isKindOfClass:vcClass]) {
+                    [tempArrM addObject:controller];
+                }
+            }
+            return tempArrM.lastObject;
+        }
+    }
+    return nil;
+}
+
 #pragma mark - Push
 
 - (void)popToIndex:(NSInteger)index thenPushViewController:(UIViewController *)viewController animated:(BOOL)animated complete:(void(^)())complete {
@@ -95,6 +110,8 @@
     UIViewController *vc = self.viewControllers[index];
     [self popToViewController:vc animated:animated complete:complete];
 }
+
+
 
 #pragma mark - Private Method
 

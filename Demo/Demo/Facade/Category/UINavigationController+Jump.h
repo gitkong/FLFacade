@@ -10,6 +10,8 @@
 
 @interface UINavigationController (Jump)
 
+- (UIViewController *)viewControllerBy:(Class)vcClass;
+
 #pragma mark - Push
 
 - (void)popToIndex:(NSInteger)index thenPushViewController:(UIViewController *)viewController animated:(BOOL)animated complete:(void(^)())complete;
