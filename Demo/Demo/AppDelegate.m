@@ -21,6 +21,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    NSLog(@"application = %p",application);
+    NSLog(@"shareApplication = %p",[UIApplication sharedApplication]);
     self.window = [[UIWindow alloc] init];
     UITabBarController *tabVc = [[UITabBarController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[[PushViewController alloc] init]];
